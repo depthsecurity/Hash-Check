@@ -112,7 +112,7 @@ class BurpExtender(IBurpExtender, ITab, IScannerCheck, IScanIssue):
 		else:
 			return None
 		
-	def doActiveScan(self, baseRequestResponse):
+	def doActiveScan(self, baseRequestResponse, insertionPoint):
 		scan_issues = []
 		tmp_issues = []
 		self._CustomScans = CustomScans(baseRequestResponse, self._callbacks)
