@@ -73,7 +73,7 @@ def writeFile(hashes, outfile):
 if __name__ == '__main__':
 	password = raw_input("Enter your password: ")
 	salt = raw_input("Enter salt: ")
-	outfile = raw_input("Enter output filename:[hashout.txt] ")
+	outfile = raw_input("Enter output file name:[hashout.txt] ")
 	if outfile == "":
 		outfile = "hashout.txt"
 	hashes = writeHash(password,salt)
