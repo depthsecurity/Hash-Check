@@ -6,9 +6,12 @@ import passlib.hash #sql, nt, md5_crypt
 
 def writeHash(password, salt):
 	hashes = {}
+	hashes[password] = "Plain-text"
+	hashes[password.encode("hex")] = "Hex"
 	hashes[base64.b16encode(password)] = "Base16"
 	hashes[base64.b32encode(password)] = "Base32"
 	hashes[base64.b64encode(password)] = "Base64"
+	hashes[base64.b64encode(salt+":"+password)] = "Basic Auth"
 	hashes[base64.b64encode(hashlib.md5(password).digest())] =  "md5"
 	hashes[base64.b64encode(hashlib.md5(password+salt).digest())] =  "md5+salt"
 	hashes[base64.b64encode(hashlib.md5(salt+password).digest())] =  "salt+md5"
@@ -65,12 +68,12 @@ def writeFile(hashes, outfile):
 	with open(outfile,"w") as hashout:
 		for hashword in hashes.keys():
 			hashout.write(hashword+":"+hashes[hashword]+"\n")
+	return
 			
 if __name__ == '__main__':
 	password = raw_input("Enter your password: ")
 	salt = raw_input("Enter salt: ")
-	outfile = raw_input("Enter output filename: [hashout.txt]")
-	print outfile
+	outfile = raw_input("Enter output filename:[hashout.txt] ")
 	if outfile == "":
 		outfile = "hashout.txt"
 	hashes = writeHash(password,salt)

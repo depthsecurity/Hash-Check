@@ -23,7 +23,7 @@ class BurpExtender(IBurpExtender, ITab, IScannerCheck, IScanIssue):
 		#self._stdout = PrintWriter(callbacks.getStdout(), True)
 		self._callbacks = callbacks
 		self._helpers = callbacks.getHelpers()
-		self._callbacks.setExtensionName("Hash Check")
+		self._callbacks.setExtensionName("Password Hash Scanner")
 		self._callbacks.registerScannerCheck(self)
 		self._fileLocation = None
 		self._jPanel = swing.JPanel()
@@ -84,6 +84,7 @@ class BurpExtender(IBurpExtender, ITab, IScannerCheck, IScanIssue):
 		output += "\n".join(self.hashes.keys())
 		output += "\n"
 		output += "#"*20
+		output += "\n"
 		self.appendToResults(output)
 		
 	def getTabCaption(self):
@@ -110,7 +111,20 @@ class BurpExtender(IBurpExtender, ITab, IScannerCheck, IScanIssue):
 			return scan_issues
 		else:
 			return None
-	
+		
+	def doPassiveScan(self, baseRequestResponse):
+		scan_issues = []
+		tmp_issues = []
+		self._CustomScans = CustomScans(baseRequestResponse, self._callbacks)
+		issuename = "Potential password hash match"
+		issuelevel = "Information"
+		tmp_issues = self._CustomScans.findReflections(issuename, issuelevel, self.hashes)
+		scan_issues = scan_issues + tmp_issues
+		if len(scan_issues) > 0:
+			return scan_issues
+		else:
+			return None
+		
 class CustomScans:
 	
 	def __init__(self, requestResponse, callbacks):
