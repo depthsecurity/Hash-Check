@@ -13,7 +13,6 @@ passwordHashScanner.py is the actual Burp extension. When the exension is loaded
 
 ### hashMaker.py
 These requirements should already be met on in Kali
-* hashlib
 * pycrypto
 * passlib
 
