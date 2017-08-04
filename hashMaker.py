@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#Written by: Brian Berg - www.github.com/xexzy
 import base64
 import urllib
 from Crypto.Hash import SHA, HMAC, MD4, MD5, SHA224, SHA256, SHA384, SHA512
